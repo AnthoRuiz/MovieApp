@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-import { getPopularMovies } from '../services/services';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import {getPopularMovies, getUpcomingMovies} from '../services/services';
+import {SliderBox} from 'react-native-image-slider-box';
 
 const Home = () => {
-  const [movie, setMovie] = useState('');
+  const [movieImages, setMovieImages] = useState('');
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    getPopularMovies()
+    getUpcomingMovies()
       .then(movies => {
-        setMovie(movies[0]);
+        const moviesImagesArray = [];
+        movies.forEach(movie => {
+          moviesImagesArray.push(
+            'https://image.tmdb.org/t/p/original' + movie.poster_path,
+          );
+        });
+        setMovieImages(moviesImagesArray);
       })
+      .catch(err => {
+        setError(err);
+      });
+
+    getPopularMovies()
+      .then(movies => {})
       .catch(err => {
         setError(err);
       });
@@ -23,11 +36,9 @@ const Home = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>Movie Name: {movie.original_title}</Text>
-      <Text>Release Date: {movie.release_date}</Text>
-      {error && <Text style={{ color: 'red' }}>Error in the Server</Text>}
+      <SliderBox images={movieImages} />
     </View>
   );
-}
+};
 
 export default Home;
