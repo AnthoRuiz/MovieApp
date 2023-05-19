@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, FlatList, Text} from 'react-native';
 import Card from '../components/Card';
+
 class List extends React.PureComponent {
   render() {
     const {title, content} = this.props;

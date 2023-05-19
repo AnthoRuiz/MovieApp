@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, Image, Text} from 'react-native';
+import {TouchableOpacity, StyleSheet, Image, Text} from 'react-native';
 
 const placeholderImage = require('../assets/images/placeholder.png');
 
@@ -13,7 +13,7 @@ class Card extends React.PureComponent {
           style={styles.image}
           source={
             item.poster_path
-              ? {uri: 'https://image.tmdb.org/t/p/original' + item.poster_path}
+              ? {uri: 'https://image.tmdb.org/t/p/w500' + item.poster_path}
               : placeholderImage
           }
         />
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   movieName: {
     position: 'absolute',
     width: 100,
-    textAlign: 'center',
     top: 10,
+    textAlign: 'center',
   },
 });
 
