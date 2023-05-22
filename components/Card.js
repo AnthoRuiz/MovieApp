@@ -5,9 +5,11 @@ const placeholderImage = require('../assets/images/placeholder.png');
 
 class Card extends React.PureComponent {
   render() {
-    const {item} = this.props;
+    const {navigation, item} = this.props;
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Detail')}
+        style={styles.container}>
         <Image
           resizeMode="cover"
           style={styles.image}
