@@ -15,6 +15,7 @@ import {
 } from '../services/services';
 import {SliderBox} from 'react-native-image-slider-box';
 import List from '../components/List';
+import Error from '../components/Error';
 
 const dimensions = Dimensions.get('screen');
 
@@ -72,7 +73,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      {loaded && (
+      {loaded && !error && (
         <ScrollView>
           {movieImages && (
             <View style={styles.sliderContainer}>
@@ -111,6 +112,7 @@ const Home = () => {
         </ScrollView>
       )}
       {!loaded && <ActivityIndicator size="large" />}
+      {error && <Error />}
     </React.Fragment>
   );
 };
