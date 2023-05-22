@@ -18,12 +18,13 @@ const App = () => {
   </NavigationContainer>
   );
 };
-const styles = StyleSheet.create({
-  viewContainer:{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+
+// const styles = StyleSheet.create({
+//   viewContainer:{
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+// });
 
 export default App;
