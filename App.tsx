@@ -1,13 +1,19 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Home from './screens/Home';
+
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <View
-      style={styles.viewContainer}>
-      <Home />
-    </View>
+    <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} />
+    </Stack.Navigator>
+  </NavigationContainer>
   );
 };
 const styles = StyleSheet.create({
