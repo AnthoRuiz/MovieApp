@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import PlayButton from '../components/PlayButton';
 import {getMovie} from '../services/services';
 import StarRating from 'react-native-star-rating';
 import dateFormat from 'dateformat';
@@ -55,6 +56,9 @@ const Detail = ({route, navigation}) => {
             }
           />
           <View style={styles.container}>
+            <View style={styles.playButton}>
+              <PlayButton />
+            </View>
             <Text style={styles.movieTitle}>{movieDetail.title}</Text>
             {movieDetail.genres && (
               <View style={styles.genreContainer}>
@@ -78,7 +82,7 @@ const Detail = ({route, navigation}) => {
           <Text style={styles.overview}>{movieDetail.overview}</Text>
           <Text style={styles.release}>
             {'Release Date: ' +
-              dateFormat(movieDetail.release_date, 'mm-dd-yyyy')}
+              dateFormat(movieDetail.release_date, 'mmmm dS, yyyy')}
           </Text>
         </ScrollView>
       )}
@@ -118,6 +122,11 @@ const styles = StyleSheet.create({
   release: {
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  playButton: {
+    position: 'absolute',
+    top: -25,
+    right: 20,
   },
 });
 
