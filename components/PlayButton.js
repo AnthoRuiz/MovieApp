@@ -1,11 +1,12 @@
 import React from 'react';
-import {Pressable, StyleSheet, Image, Text} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class PlayButton extends React.PureComponent {
   render() {
+    const {handlePress} = this.props;
     return (
-      <Pressable style={styles.button}>
+      <Pressable onPress={() => handlePress()} style={styles.button}>
         <Icon name={'caret-forward-outline'} size={30} color={'#fff'} />
       </Pressable>
     );

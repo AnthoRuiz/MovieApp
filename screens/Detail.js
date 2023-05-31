@@ -7,7 +7,9 @@ import {
   ActivityIndicator,
   Text,
   View,
+  Modal,
 } from 'react-native';
+import VideoPlayer from 'react-native-video-controls';
 import PlayButton from '../components/PlayButton';
 import {getMovie} from '../services/services';
 import StarRating from 'react-native-star-rating';
@@ -23,6 +25,7 @@ const Detail = ({route, navigation}) => {
 
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getMovie(movieId)
@@ -38,53 +41,70 @@ const Detail = ({route, navigation}) => {
       });
   }, [movieId]);
 
+  const videoShown = () => {
+    setModalVisible(!modalVisible);
+  };
+
   return (
     <React.Fragment>
       {loaded && !error && (
-        <ScrollView>
-          <Image
-            resizeMode="cover"
-            style={styles.image}
-            source={
-              movieDetail.poster_path
-                ? {
-                    uri:
-                      'https://image.tmdb.org/t/p/w500' +
-                      movieDetail.poster_path,
-                  }
-                : placeholderImage
-            }
-          />
-          <View style={styles.container}>
-            <View style={styles.playButton}>
-              <PlayButton />
-            </View>
-            <Text style={styles.movieTitle}>{movieDetail.title}</Text>
-            {movieDetail.genres && (
-              <View style={styles.genreContainer}>
-                {movieDetail.genres.map(genre => {
-                  return (
-                    <Text style={styles.genreName} key={genre.id}>
-                      {genre.name}
-                    </Text>
-                  );
-                })}
-              </View>
-            )}
-            <StarRating
-              fullStarColor={'gold'}
-              starSize={30}
-              disabled={true}
-              maxStars={5}
-              rating={movieDetail.vote_average / 2}
+        <View>
+          <ScrollView>
+            <Image
+              resizeMode="cover"
+              style={styles.image}
+              source={
+                movieDetail.poster_path
+                  ? {
+                      uri:
+                        'https://image.tmdb.org/t/p/w500' +
+                        movieDetail.poster_path,
+                    }
+                  : placeholderImage
+              }
             />
-          </View>
-          <Text style={styles.overview}>{movieDetail.overview}</Text>
-          <Text style={styles.release}>
-            {'Release Date: ' +
-              dateFormat(movieDetail.release_date, 'mmmm dS, yyyy')}
-          </Text>
-        </ScrollView>
+            <View style={styles.container}>
+              <View style={styles.playButton}>
+                <PlayButton handlePress={videoShown} />
+              </View>
+              <Text style={styles.movieTitle}>{movieDetail.title}</Text>
+              {movieDetail.genres && (
+                <View style={styles.genreContainer}>
+                  {movieDetail.genres.map(genre => {
+                    return (
+                      <Text style={styles.genreName} key={genre.id}>
+                        {genre.name}
+                      </Text>
+                    );
+                  })}
+                </View>
+              )}
+              <StarRating
+                fullStarColor={'gold'}
+                starSize={30}
+                disabled={true}
+                maxStars={5}
+                rating={movieDetail.vote_average / 2}
+              />
+            </View>
+            <Text style={styles.overview}>{movieDetail.overview}</Text>
+            <Text style={styles.release}>
+              {'Release Date: ' +
+                dateFormat(movieDetail.release_date, 'mmmm dS, yyyy')}
+            </Text>
+          </ScrollView>
+          <Modal animationType="slide" visible={modalVisible}>
+            <View style={styles.videoModal}>
+              <VideoPlayer
+                source={{uri: 'https://vjs.zencdn.net/v/oceans.mp4'}}
+                onBack={() => {
+                  videoShown();
+                }}
+                navigator={navigation}
+              />
+            </View>
+          </Modal>
+        </View>
       )}
       {!loaded && <ActivityIndicator size="large" />}
     </React.Fragment>
@@ -127,6 +147,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -25,
     right: 20,
+  },
+  videoModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
